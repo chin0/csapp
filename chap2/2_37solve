@@ -1,0 +1,9 @@
+A. 아무 도움도 되지 않는다. 64비트로 바꿔서 연산한다고 해도, malloc의 size_t는 32비트이기때문에 결국 문제는 똑같다.
+B. 할수있는일은 연산 후 request_size와 맞는지 비교해서 맞으면 진행하고 아니면 NULL을 리턴하게 하는수밖에 없다.
+이런식으로
+      long long unsigned required_size =
+             ele_cnt * (long long unsigned) ele_size;
+         size_t request_size = (size_t) required_size;
+         if (required_size != request_size)
+             /* Overflow must have occurred.  Abort operation */
+             return NULL;
